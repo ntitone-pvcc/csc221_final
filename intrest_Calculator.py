@@ -67,7 +67,7 @@ def invest_length(x):
 
 
 print("welcome to our interest calculator the goal of this is to give you a idea of how much interest you will make")
-
+#saving variables 
 principal = float(input("how much money would you like to add? $")) #Your starting balance
 print(f" you have deposited ${principal}")
 interest = float(input("what interest rate would you like? %")) #the interest rate you want
@@ -77,6 +77,7 @@ print(f"you have chosen a {compound} day compound rate")
 print(compound)
 length = invest_length(True) #saves the length of the investment window in days
 print(length)
+#math part
 p = 1 + interest /compound
 o = compound * length
 final = principal * p ** o
