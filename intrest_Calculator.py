@@ -6,17 +6,17 @@ def compound_check (compound_pick):
             x = int(compound_pick)
             if (x == 1):
                 print("you have chosen monthly")
-                return 30
+                return interest/30 
         elif (compound_pick == "2"):
             x = int(compound_pick)
             if (x == 2):
                 print("You have chosen quarterly")
-                return 90
+                return interest/90
         elif (compound_pick ==  "3"):
             x = int(compound_pick)
             if (x == 3):
                 print("you have chosen yearly")
-                return 365
+                return interest/365 
         else:
             print("sorry thats not a valid choice. please selected again")
 
@@ -67,6 +67,7 @@ def invest_length(x):
 #Does all the math
 def compound_interest(principal, interest, length, compound):
     # Calculate compound interest
+    #amount = principal * (pow((1 + interest / 100), length))
     amount = principal * (pow((1 + interest / (100 * compound)), compound * length))
     total = amount - principal
     return total
@@ -75,17 +76,21 @@ def compound_interest(principal, interest, length, compound):
 print("welcome to our interest calculator the goal of this is to give you a idea of how much interest you will make")
 #saving variables 
 principal = float(input("how much money would you like to add? $")) #Your starting balance
-print(f" you have deposited ${principal}")
+print(f" you have chosen deposited ${principal}")
 interest = float(input("what interest rate would you like? %")) #the interest rate you want
-print(f"you would like to have a interest rate of %{interest}")
+print(f"you have chosen to have a interest rate of %{interest}")
 compound = compound_check(True) #Saving our users compound rate from our function 
 print(f"you have chosen a {compound} day compound rate")
-print(compound)
 length = invest_length(True) #saves the length of the investment window in days
-print(length)
 final_amount = compound_interest(principal, interest, length, compound)
-print(final_amount)
-#math part
+
+print(f"your starting amount is ${principal}")
+print(f"you have a interest rate of %{interest}")
+print(f"you have selected your term to be for {length} days")
+print(f"with it compounding every {compound} days")
+print(f"your final amount after everything should be ${final_amount}")
+
+      #math part
 #p = 1 + interest /compound
 #o = compound * length
 #final = principal * p ** o
