@@ -1,6 +1,6 @@
 #def compound_interest()
 
-#This function makes sure the user selects the correct term
+#This function makes sure the user selects the correct term that they want the compound rate to be 
 def compound_check (compound_pick):
     while True:
         compound_pick = input("please selected at what frequency you would like to compound to be at. \n monthly(1), quarterly(2), or yearly(3). ")
@@ -24,9 +24,9 @@ def compound_check (compound_pick):
 
 #this function will will tae users length and return how long
 def invest_length(x):
-    #makes sure the user selects the correct choices
+    #makes sure the user selects the correct choices so that it can be assigned to z 
     while True:
-        x = input("please pick if you would like to invest for month(1), quarter(2), or year(3) ")
+        x = input("would you like your investment length to be in month(1), quarter(2), or year(3) ")
         if (x == "1"):
             x = int(x)
             if (x == 1):
@@ -45,7 +45,7 @@ def invest_length(x):
         else:
             print("sorry please select again from the choices listed")
 
-
+    #checks to see if the user entered a string that can be converted to a int
     while True:
         y = (input(f"please select how many {z} you would like for "))
         try:
@@ -53,6 +53,7 @@ def invest_length(x):
            break
         except ValueError:
                 print("Error: Please enter a valid integer.")
+    #Multiples days by the duration you have picked to give total number of days you are investing for            
     while True:     
         if (x == 1):
             print("You have selected month")
@@ -82,4 +83,4 @@ p = 1 + interest /compound
 o = compound * length
 final = principal * p ** o
 print(round(final, 2))
-#test
+
