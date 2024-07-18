@@ -64,6 +64,12 @@ def invest_length(x):
             return 365 * y
         else:
             print("sorry thats not a valid choice. Please select again")
+#Does all the math
+def compound_interest(principal, interest, length, compound):
+    # Calculate compound interest
+    amount = principal * (pow((1 + interest / (100 * compound)), compound * length))
+    total = amount - principal
+    return total
 
 
 print("welcome to our interest calculator the goal of this is to give you a idea of how much interest you will make")
@@ -77,9 +83,11 @@ print(f"you have chosen a {compound} day compound rate")
 print(compound)
 length = invest_length(True) #saves the length of the investment window in days
 print(length)
+final_amount = compound_interest(principal, interest, length, compound)
+print(final_amount)
 #math part
-p = 1 + interest /compound
-o = compound * length
-final = principal * p ** o
-print(round(final, 2))
+#p = 1 + interest /compound
+#o = compound * length
+#final = principal * p ** o
+#print(round(final, 2))
 
