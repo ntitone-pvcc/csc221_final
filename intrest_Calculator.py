@@ -1,5 +1,3 @@
-#def compound_interest()
-
 #This function makes sure the user selects the correct term that they want the compound rate to be 
 def compound_check (compound_pick):
     while True:
