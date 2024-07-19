@@ -57,16 +57,16 @@ def invest_length(x):
         except ValueError:
                 print("Error: Please enter a valid integer.")
 
-    # Multiples days by the duration you have picked to give total number of days you are investing for            
+    # Multiplies days by the duration you have picked to give total number of days you are investing for            
     while True:     
         if (x == 1):
-            print("You have selected months")
+            #print("You have selected months")
             return 30 * y
         elif (x == 2):
-            print("You have selected quarters")
+            #print("You have selected quarters")
             return 90 * y
         elif (x == 3):
-            print("You have selected years")
+            #print("You have selected years")
             return 365 * y
         else:
             print("sorry thats not a valid choice. Please select again")
@@ -110,7 +110,7 @@ length = invest_length(True) #saves the length of the investment window in days
 total_interest = compound_interest(principal, interest, length, compound)
 final_amount = total_interest + principal
 
-print(f"Your principal investment was ${principal}")
+print(f"Your principal investment was ${round(principal,2)}")
 print(f"You have a interest rate of {interest}%")
 print(f"Your interest is being compounded every {compound} day(s)")
 print(f"The overall length of your investment is {length} days")
