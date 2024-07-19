@@ -74,12 +74,27 @@ def compound_interest(principal, interest, length, compound):
     total = amount - principal
     return total
 
+while True:
+    p = input("how much money would you like to add? $") #Your starting balance
+    try:
+       p = float(p)
+       break
+    except ValueError:
+            print("Error: Please enter a valid amount.")
+while True:
+    i = input("what interest rate would you like? %") #the interest rate you want
+    try:
+        i = float(i)
+        break
+    except ValueError:
+        print("sorry please enter a valid interest rate")
+
 
 print("welcome to our interest calculator the goal of this is to give you a idea of how much interest you will make")
 #saving variables 
-principal = float(input("how much money would you like to add? $")) #Your starting balance
+principal = p
 print(f" you have chosen deposited ${principal}")
-interest = float(input("what interest rate would you like? %")) #the interest rate you want
+interest = i
 print(f"you have chosen to have a interest rate of {interest}%")
 compound = compound_check(True) #Saving our users compound rate from our function 
 print(f"you have chosen a {compound} day compound rate")
