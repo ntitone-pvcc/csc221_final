@@ -1,7 +1,7 @@
 #This function makes sure the user selects the correct compound rate that they want the compound rate to be 
 def compound_check (compound_pick):
     while True:
-        compound_pick = input("please selected at what frequency you would like to compound to be at. \nmonthly(1), quarterly(2), or yearly(3). ")
+        compound_pick = input("please selected at what frequency you would like to compound to be at. \n monthly(1), quarterly(2), or yearly(3). ")
         if (compound_pick == "1" ):
             x = int(compound_pick)
             if (x == 1):
@@ -24,7 +24,7 @@ def compound_check (compound_pick):
 def invest_length(x):
     #makes sure the user selects the correct choices so that it can be assigned to z 
     while True:
-        x = input("would you like your investment length to be in \nmonth(1), quarter(2), or year(3) ")
+        x = input("would you like your investment length to be in \n month(1), quarter(2), or year(3) ")
         if (x == "1"):
             x = int(x)
             if (x == 1):
@@ -70,7 +70,7 @@ def invest_length(x):
 def compound_interest(principal, interest, length, compound):
     # Calculate compound interest
     #amount = principal * (pow((1 + interest / 100), length))
-    amount = principal * (pow((1 + interest / (100 * compound)), compound * length))
+    amount = principal * (pow((1 + interest / (100 * compound)), compound * (length / 365)))
     total = amount - principal
     return total
 
@@ -80,21 +80,15 @@ print("welcome to our interest calculator the goal of this is to give you a idea
 principal = float(input("how much money would you like to add? $")) #Your starting balance
 print(f" you have chosen deposited ${principal}")
 interest = float(input("what interest rate would you like? %")) #the interest rate you want
-print(f"you have chosen to have a interest rate of %{interest}")
+print(f"you have chosen to have a interest rate of {interest}%")
 compound = compound_check(True) #Saving our users compound rate from our function 
 print(f"you have chosen a {compound} day compound rate")
 length = invest_length(True) #saves the length of the investment window in days
-final_amount = compound_interest(principal, interest, length, compound)
+total_interest = compound_interest(principal, interest, length, compound)
+final_amount = total_interest + principal
 
 print(f"your starting amount is ${principal}")
-print(f"you have a interest rate of %{interest}")
+print(f"you have a interest rate of {interest}%")
 print(f"you have selected your term to be for {length} days")
 print(f"with it compounding every {compound} days")
 print(f"your final amount after everything should be ${final_amount}")
-
-      #math part
-#p = 1 + interest /compound
-#o = compound * length
-#final = principal * p ** o
-#print(round(final, 2))
-
