@@ -3,36 +3,60 @@
 
 from enum import Enum
 
+class InvestmentLengthUnitType(Enum):
+    MONTHS = ("Months", 30)
+    QUARTERS = ("Quarters", 90)
+    YEARS = ("Years", 365)
+
+    def __init__(self, name, number_of_days):
+        self._name_ = name
+        self.times_per_year = number_of_days
+
+    def __str__(self):
+        return self._name_
+
+class InvestmentLengthUnitWrapper:
+    investment_length_unit_type: InvestmentLengthUnitType
+
+    def __init__(self, input_string):
+        self.investment_length_unit_type = self._input_value_to_investment_length_unit_type(input_string)
+    
+    def _input_value_to_investment_length_unit_type(self, string):
+        if string == '1':
+            return InvestmentLengthUnitType.MONTHS
+        elif string == '2':
+            return InvestmentLengthUnitType.QUARTERS
+        elif string == '3':
+            return InvestmentLengthUnitType.YEARS
+        raise ValueError(f"Invalid input.  There is no length type associated with the input value: {string}")
+
 
 class CompoundInterestType(Enum):
     MONTHLY = ("Monthly", 12)
     QUARTERLY = ("Quarterly", 4)
     ANNUALLY = ("Annually", 1)
 
-    def __init__(self, name, times_per_year):
+    def __init__(self, name, yearly_compound_count):
         self._name_ = name
-        self.times_per_year = times_per_year
+        self.times_per_year = yearly_compound_count
 
     def __str__(self):
         return self._name_
     
 class CompoundInterestTypeWrapper:
-    @classmethod
-    def from_compound_interest_type(cls, value):
-        """
-        Initialize an instance of CompoundInterestType from a value.
+    compound_interest_type: CompoundInterestType
 
-        :param value: The number of times interest is compounded per year
-        :return: An instance of CompoundInterestType
-        """
-        for interest_type in CompoundInterestType:
-            int_value = int(value)
-            if interest_type.times_per_year == int_value:
-                return interest_type
-        raise ValueError(f"Invalid interest type.  There is no interest type associated with the input value: {value}")
+    def __init__(self, input_string):
+        self.compound_interest_type = self._input_value_to_compound_interest_type(input_string)
     
-thing = CompoundInterestTypeWrapper.from_compound_interest_type('4').value
-print(thing)
+    def _input_value_to_compound_interest_type(self, string):
+        if string == '1':
+            return CompoundInterestType.MONTHLY
+        elif string == '2':
+            return CompoundInterestType.QUARTERLY
+        elif string == '3':
+            return CompoundInterestType.ANNUALLY
+        raise ValueError(f"Invalid interest type.  There is no interest type associated with the input value: {string}")
 
 
 def calculateInterest(principle: float, rate: float, compounded_count: int, years: int):
@@ -48,16 +72,95 @@ a = calculateInterest(
 
 print(a)
 
-def display_compound_rate():
+def create_choices_string():
     values = []
     for (index, interestType) in enumerate(CompoundInterestType, start=0):
         values.append(f"{interestType.name} ({index+1})")
 
     final = ', '.join(values)
-    #print(F"How often would you like the interest to be compounded? {final}")
-    input(F"How often would you like the interest to be compounded? {final}")
+    return final
 
-display_compound_rate()
+def check_user_principle_input(input):
+    try:
+        value = float(input)
+        return value
+    except Exception:
+        return None
+
+def get_user_principle():
+    print("What is your initial investment in U.S. dollars?")
+    while True:
+        principle = input("")
+        checked_user_input = check_user_principle_input(input=principle)
+        if checked_user_input != None:
+            return checked_user_input
+        else:
+            print("Please enter a valid U.S. dollar amount for your starting investment")
+
+def check_user_interest_rate(input):
+    try:
+        value = float(input) / float(100)
+        return value
+    except Exception:
+        return None
+
+def get_user_interest_rate():
+    print("What is the interest rate of your investment?")
+    while True:
+        interestRate = input("")
+        checked_user_input = check_user_interest_rate(input=interestRate)
+        if checked_user_input != None:
+            return checked_user_input
+        else:
+            print("Please enter a valid interest rate.")
+
+def get_user_compound_rate():
+    choices = create_choices_string()
+    print(F"How often should your interest compound?\n{choices}")
+    while True:
+        compound_rate = input("")
+        try:
+            checked_user_input = CompoundInterestTypeWrapper(compound_rate)
+            return checked_user_input
+        except ValueError as e:
+            print(e)
+
+def get_user_length_metric():
+    values = []
+    for (index, unit) in enumerate(InvestmentLengthUnitType, start=0):
+        values.append(f"{unit.name} ({index+1})")
+    final = ', '.join(values)
+    choices = final
+    print(F"What unit of time would you like to see your investment grow in?\n{choices}")
+
+    while True:
+        length_metric = input("")
+        try:
+            checked_user_input = InvestmentLengthUnitWrapper(length_metric)
+            return checked_user_input
+        except ValueError as e:
+            print(e)
+
+
+def display_investment_length(t: InvestmentLengthUnitType):
+    print(f"How many {t} would you you like to invest for? ")
+    choice = int(input())
+    
+
+    
+def main():
+    principle = get_user_principle()
+    print(F"Your principle is ${principle}.")
+    interest_rate = get_user_interest_rate()
+    print(F"Your interestRate is {interest_rate * 100 }%.")
+    compound_rate = get_user_compound_rate()
+    print(F"Your compound rate is {compound_rate.compound_interest_type.name}")
+    length_metric = get_user_length_metric()
+    print(F"You have selected {length_metric.investment_length_unit_type.name}")
+
+
+
+main()
 
 
 # Declare functions
