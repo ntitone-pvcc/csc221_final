@@ -73,7 +73,7 @@ def invest_length(x):
 
 def compound_interest(principal, interest, length, compound):
     """Uses 'principal', 'interest', 'length' and 'compound', to perform a calculation based on the compound interest formula 'A = P(1+r/n)**(n*t)'"""
-    # amount = principal * (pow((1 + interest / 100), length))
+    # Calculate compound interest
     amount = principal * (pow((1 + interest / (100 * compound)), compound * (length / 365)))
     total = amount - principal
     return total
