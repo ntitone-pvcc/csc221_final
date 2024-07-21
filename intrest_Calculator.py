@@ -1,28 +1,87 @@
 # This program is a simple compound interest calculator that will prompt the user for information regarding their investment, calculate the interest accrued over the length of their
 # investment, then display their earnings.
 
+from enum import Enum
+
+
+class CompoundInterestType(Enum):
+    MONTHLY = ("Monthly", 12)
+    QUARTERLY = ("Quarterly", 4)
+    ANNUALLY = ("Annually", 1)
+
+    def __init__(self, name, times_per_year):
+        self._name_ = name
+        self.times_per_year = times_per_year
+
+    def __str__(self):
+        return self._name_
+    
+class CompoundInterestTypeWrapper:
+    @classmethod
+    def from_compound_interest_type(cls, value):
+        """
+        Initialize an instance of CompoundInterestType from a value.
+
+        :param value: The number of times interest is compounded per year
+        :return: An instance of CompoundInterestType
+        """
+        for interest_type in CompoundInterestType:
+            int_value = int(value)
+            if interest_type.times_per_year == int_value:
+                return interest_type
+        raise ValueError(f"Invalid interest type.  There is no interest type associated with the input value: {value}")
+    
+thing = CompoundInterestTypeWrapper.from_compound_interest_type('4').value
+print(thing)
+
+
+def calculateInterest(principle: float, rate: float, compounded_count: int, years: int):
+    a = principle * ((1 + (float(rate)/float(compounded_count))) ** (float(compounded_count)*float(years)))
+    return float(round(a,2))
+
+a = calculateInterest(
+    principle=100,
+    rate=5/100,
+    compounded_count=12,
+    years=1
+)
+
+print(a)
+
+def display_compound_rate():
+    values = []
+    for (index, interestType) in enumerate(CompoundInterestType, start=0):
+        values.append(f"{interestType.name} ({index+1})")
+
+    final = ', '.join(values)
+    #print(F"How often would you like the interest to be compounded? {final}")
+    input(F"How often would you like the interest to be compounded? {final}")
+
+display_compound_rate()
+
+
 # Declare functions
 def compound_check (compound_pick):
-    """This function takes the input value 'compound pick' from the user, and converts it into an integer value representing the compounding rate in days."""
+    # This function takes the input value 'compound pick' from the user, and converts it into an integer value representing the compounding rate in days.
     while True:
         compound_pick = input("How often would you like the interest to be compounded?\nMonthly(1), Quarterly(2), or Yearly(3) ")
         if (compound_pick == "1" ):
             x = int(compound_pick)
             if (x == 1):
                 print("Your interest will be compounded monthly.")
-                return 30
+                return 12
         elif (compound_pick == "2"):
             x = int(compound_pick)
             if (x == 2):
                 print("Your interest will be compounded quarterly.")
-                return 90
+                return 4
         elif (compound_pick ==  "3"):
             x = int(compound_pick)
             if (x == 3):
                 print("Your interest will be compounded yearly.")
-                return 365
+                return 1
         else:
-            print("sorry thats not a valid choice. please selected again")
+            print("Sorry thats not a valid choice. Please selected again.")
 
 
 def invest_length(x):
@@ -110,8 +169,8 @@ length = invest_length(True) #saves the length of the investment window in days
 total_interest = compound_interest(principal, interest, length, compound)
 final_amount = total_interest + principal
 
-print(f"Your principal investment was ${round(principal,2)}")
+print(f"Your principal investment was ${principal}")
 print(f"You have a interest rate of {interest}%")
 print(f"Your interest is being compounded every {compound} day(s)")
 print(f"The overall length of your investment is {length} days")
-print(f"Your final balance, including both principal and interest, is ${round(final_amount,2)}")
+print(f"Your final balance, including both principal and interest, is ${final_amount}")
