@@ -86,7 +86,7 @@ def check_user_length_input(unitType: InvestmentLengthUnitType, duration: int):
         raise ValueError('Duration must be an integer.')
     
     try:
-        days = int(unitType.days)
+        days = float(unitType.days) #was int1
     except ValueError:
         raise ValueError('Unit type is not an integer')
     
@@ -118,6 +118,8 @@ def main():
         principle=principle, rate=interest_rate, compounded_count=compound_rate.compound_interest_type.times_per_year, years=float(float(invest_length)/float(365))
     )
     print(F"Your total interest is {total_interest}")
-
+#this is the begin of program
+print("Welcome to our interest calculator.\n")
+print("The goal of this calculator is to give you a idea of how much money you could possibly make with in a given length of time\n")
 #calling the program 
 main()

@@ -3,11 +3,11 @@ from enum import Enum
 # A static type that holds the compound rate (times_per_year) and the name of the 
 # interest type. 
 class InvestmentLengthUnitType(Enum):
-    MONTHS = ("Months", 30)
-    QUARTERS = ("Quarters", 90)
-    YEARS = ("Years", 365)
+    MONTHS = ("Months", 365/12)
+    QUARTERS = ("Quarters", 365/4)
+    YEARS = ("Years", 365/1)
 
-    days: int
+    days: float #was int
 
     def __init__(self, name, number_of_days):
         self._name_ = name
@@ -15,6 +15,7 @@ class InvestmentLengthUnitType(Enum):
 
     def __str__(self):
         return self._name_
+    
 
 # This type can create a (InvestmentLengthUnitType) given a user input of 1, 2, or 3.
 # 1 = MONTHS
