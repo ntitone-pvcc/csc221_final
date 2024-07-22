@@ -8,9 +8,13 @@ class InvestmentLengthUnitType(Enum):
     QUARTERS = ("Quarters", 90)
     YEARS = ("Years", 365)
 
+    days: int
+    years: float
+
     def __init__(self, name, number_of_days):
         self._name_ = name
-        self.times_per_year = number_of_days
+        self.days = number_of_days
+        self.years = number_of_days/365
 
     def __str__(self):
         return self._name_
@@ -29,20 +33,22 @@ class InvestmentLengthUnitWrapper:
         elif string == '3':
             return InvestmentLengthUnitType.YEARS
         raise ValueError(f"Invalid input.  There is no length type associated with the input value: {string}")
-
+        
 
 class CompoundInterestType(Enum):
     MONTHLY = ("Monthly", 12)
     QUARTERLY = ("Quarterly", 4)
     ANNUALLY = ("Annually", 1)
 
-    def __init__(self, name, yearly_compound_count):
+    times_per_year: int
+
+    def __init__(self, name, times_per_year):
         self._name_ = name
-        self.times_per_year = yearly_compound_count
+        self.times_per_year = times_per_year
 
     def __str__(self):
         return self._name_
-    
+
 class CompoundInterestTypeWrapper:
     compound_interest_type: CompoundInterestType
 
@@ -59,8 +65,8 @@ class CompoundInterestTypeWrapper:
         raise ValueError(f"Invalid interest type.  There is no interest type associated with the input value: {string}")
 
 
-def calculateInterest(principle: float, rate: float, compounded_count: int, years: int):
-    a = principle * ((1 + (float(rate)/float(compounded_count))) ** (float(compounded_count)*float(years)))
+def calculateInterest(principle: float, rate: float, compounded_count: int, years: float,):
+    a = principle * ((1 + (float(rate)/float(compounded_count))) ** (float(compounded_count)*years))
     return float(round(a,2))
 
 a = calculateInterest(
@@ -142,11 +148,29 @@ def get_user_length_metric():
             print(e)
 
 
-def display_investment_length(t: InvestmentLengthUnitType):
-    print(f"How many {t} would you you like to invest for? ")
-    choice = int(input())
+def check_user_length_input(unitType: InvestmentLengthUnitType, duration: int):
+    try:
+        duration = int(duration)
+    except ValueError:
+        raise ValueError('Duration must be an integer.')
     
+    try:
+        days = int(unitType.days)
+    except ValueError:
+        raise ValueError('Unit type is not an integer')
+    
+    result = duration * days
+    return result
 
+def display_investment_length(unit_type: InvestmentLengthUnitType):
+    print(f"How many {unit_type.name} would you you like to invest for? ")
+    while True:
+        length = input("")
+        checked_user_input = check_user_length_input(unitType=unit_type, duration=length)
+        if checked_user_input != None:
+            return checked_user_input
+        else:
+            print("Please enter a valid U.S. dollar amount for your starting investment")
     
 def main():
     principle = get_user_principle()
@@ -157,7 +181,12 @@ def main():
     print(F"Your compound rate is {compound_rate.compound_interest_type.name}")
     length_metric = get_user_length_metric()
     print(F"You have selected {length_metric.investment_length_unit_type.name}")
-
+    invest_length = display_investment_length(unit_type=length_metric.investment_length_unit_type)
+    print(F"Your investment length is over {invest_length} days")
+    total_interest = calculateInterest(
+        principle=principle, rate=interest_rate, compounded_count=compound_rate.compound_interest_type.times_per_year, years=float(float(invest_length)/float(365))
+    )
+    print(F"Your total interest is {total_interest}")
 
 
 main()
