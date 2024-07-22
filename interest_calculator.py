@@ -4,6 +4,7 @@
 from compound_interest_type import CompoundInterestType, CompoundInterestTypeWrapper
 from investment_length_unit_type import InvestmentLengthUnitType, InvestmentLengthUnitWrapper
 
+#This function does math to figure out our interest 
 def calculateInterest(principle: float, rate: float, compounded_count: int, years: float,):
     a = principle * ((1 + (float(rate)/float(compounded_count))) ** (float(compounded_count)*years))
     return float(round(a,2))
@@ -15,14 +16,14 @@ def create_choices_string():
 
     final = ', '.join(values)
     return final
-
+#checks to see if user input is valid
 def check_user_principle_input(input):
     try:
         value = float(input)
         return value
     except Exception:
         return None
-
+#checks to see if user input is a valid amount
 def get_user_principle():
     print("What is your initial investment in U.S. dollars?")
     while True:
@@ -32,14 +33,14 @@ def get_user_principle():
             return checked_user_input
         else:
             print("Please enter a valid U.S. dollar amount for your starting investment")
-
+#checks to see if interest rate is valid
 def check_user_interest_rate(input):
     try:
         value = float(input) / float(100)
         return value
     except Exception:
         return None
-
+#gets user input for interest rate
 def get_user_interest_rate():
     print("What is the interest rate of your investment?")
     while True:
@@ -49,7 +50,7 @@ def get_user_interest_rate():
             return checked_user_input
         else:
             print("Please enter a valid interest rate.")
-
+#Gets users input for frequency of compounding
 def get_user_compound_rate():
     choices = create_choices_string()
     print(F"How often should your interest compound?\n{choices}")
@@ -77,7 +78,7 @@ def get_user_length_metric():
         except ValueError as e:
             print(e)
 
-
+#checks to see if users input length is valid 
 def check_user_length_input(unitType: InvestmentLengthUnitType, duration: int):
     try:
         duration = int(duration)
@@ -91,7 +92,7 @@ def check_user_length_input(unitType: InvestmentLengthUnitType, duration: int):
     
     result = duration * days
     return result
-
+##gets users choice for investment length
 def display_investment_length(unit_type: InvestmentLengthUnitType):
     print(f"How many {unit_type.name} would you you like to invest for? ")
     while True:
@@ -101,7 +102,7 @@ def display_investment_length(unit_type: InvestmentLengthUnitType):
             return checked_user_input
         else:
             print("Please enter a valid U.S. dollar amount for your starting investment")
-    
+#Brings everything together and makes the calculator 
 def main():
     principle = get_user_principle()
     print(F"Your principle is ${principle}.")
@@ -118,5 +119,5 @@ def main():
     )
     print(F"Your total interest is {total_interest}")
 
-
+#calling the program 
 main()
