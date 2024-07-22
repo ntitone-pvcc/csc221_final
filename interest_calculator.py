@@ -1,7 +1,7 @@
 # This program is a simple compound interest calculator that will prompt the user for information regarding their investment, calculate the interest accrued over the length of their
 # investment, then display their earnings.
 
-from enum import Enum
+from compound_interest_type import CompoundInterestType
 from investment_length_unit_type import InvestmentLengthUnitType
 
 class InvestmentLengthUnitWrapper:
@@ -19,20 +19,6 @@ class InvestmentLengthUnitWrapper:
             return InvestmentLengthUnitType.YEARS
         raise ValueError(f"Invalid input.  There is no length type associated with the input value: {string}")
         
-
-class CompoundInterestType(Enum):
-    MONTHLY = ("Monthly", 12)
-    QUARTERLY = ("Quarterly", 4)
-    ANNUALLY = ("Annually", 1)
-
-    times_per_year: int
-
-    def __init__(self, name, times_per_year):
-        self._name_ = name
-        self.times_per_year = times_per_year
-
-    def __str__(self):
-        return self._name_
 
 class CompoundInterestTypeWrapper:
     compound_interest_type: CompoundInterestType
