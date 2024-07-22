@@ -14,3 +14,18 @@ class CompoundInterestType(Enum):
 
     def __str__(self):
         return self._name_
+
+class CompoundInterestTypeWrapper:
+    compound_interest_type: CompoundInterestType
+
+    def __init__(self, input_string):
+        self.compound_interest_type = self._input_value_to_compound_interest_type(input_string)
+    
+    def _input_value_to_compound_interest_type(self, string):
+        if string == '1':
+            return CompoundInterestType.MONTHLY
+        elif string == '2':
+            return CompoundInterestType.QUARTERLY
+        elif string == '3':
+            return CompoundInterestType.ANNUALLY
+        raise ValueError(f"Invalid interest type.  There is no interest type associated with the input value: {string}")
