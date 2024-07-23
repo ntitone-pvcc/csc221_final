@@ -113,7 +113,7 @@ def main():
     length_metric = get_user_length_metric()
     print(F"You have selected {length_metric.investment_length_unit_type.name}")
     invest_length = display_investment_length(unit_type=length_metric.investment_length_unit_type)
-    print(F"Your investment length is over {invest_length} days")
+    print(F"Your investment length is over {int(invest_length)} days")
     total_interest = calculateInterest(
         principle=principle, rate=interest_rate, compounded_count=compound_rate.compound_interest_type.times_per_year, years=float(float(invest_length)/float(365))
     )
