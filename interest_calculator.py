@@ -4,7 +4,7 @@
 from compound_interest_type import CompoundInterestType, CompoundInterestTypeWrapper
 from investment_length_unit_type import InvestmentLengthUnitType, InvestmentLengthUnitWrapper
 
-#This function does math to figure out our interest 
+# This function calculates the interest
 def calculateInterest(principle: float, rate: float, compounded_count: int, years: float,):
     a = principle * ((1 + (float(rate)/float(compounded_count))) ** (float(compounded_count)*years))
     return float(round(a,2))
@@ -16,33 +16,33 @@ def create_choices_string():
 
     final = ', '.join(values)
     return final
-#checks to see if user input is valid
+# Checks to see if the user input is valid
 def check_user_principle_input(input):
     try:
         value = float(input)
         return value
     except Exception:
         return None
-#checks to see if user input is a valid amount
+# Checks to see if the user input is a valid amount
 def get_user_principle():
     print("What is your initial investment in U.S. dollars?")
     while True:
         principle = input("")
         checked_user_input = check_user_principle_input(input=principle)
-        if checked_user_input != None:
+        if checked_user_input != None and checked_user_input >=0:
             return checked_user_input
         else:
-            print("Please enter a valid U.S. dollar amount for your starting investment")
-#checks to see if interest rate is valid
+            print("Please enter a valid U.S. dollar amount for your initial investment")
+# Checks to see if interest rate is valid
 def check_user_interest_rate(input):
     try:
         value = float(input) / float(100)
         return value
     except Exception:
         return None
-#gets user input for interest rate
+# Gets user input for interest rate
 def get_user_interest_rate():
-    print("What is the interest rate of your investment?")
+    print("What is the interest rate (as a percentage, e.g., 5 for 5%)?")
     while True:
         interestRate = input("")
         checked_user_input = check_user_interest_rate(input=interestRate)
@@ -50,10 +50,10 @@ def get_user_interest_rate():
             return checked_user_input
         else:
             print("Please enter a valid interest rate.")
-#Gets users input for frequency of compounding
+# Gets user's input for the frequency of compounding
 def get_user_compound_rate():
     choices = create_choices_string()
-    print(F"How often should your interest compound?\n{choices}")
+    print(F"How often will the interest be compounded?\n{choices}")
     while True:
         compound_rate = input("")
         try:
@@ -68,7 +68,7 @@ def get_user_length_metric():
         values.append(f"{unit.name} ({index+1})")
     final = ', '.join(values)
     choices = final
-    print(F"What unit of time would you like to see your investment grow in?\n{choices}")
+    print(F"Over what unit of time would you like to see your investment grow?\n{choices}")
 
     while True:
         length_metric = input("")
@@ -78,7 +78,7 @@ def get_user_length_metric():
         except ValueError as e:
             print(e)
 
-#checks to see if users input length is valid 
+# Checks to see if users input length is valid 
 def check_user_length_input(unitType: InvestmentLengthUnitType, duration: int):
     try:
         duration = int(duration)
@@ -92,34 +92,34 @@ def check_user_length_input(unitType: InvestmentLengthUnitType, duration: int):
     
     result = duration * days
     return result
-##gets users choice for investment length
+# Gets users choice for investment length
 def display_investment_length(unit_type: InvestmentLengthUnitType):
-    print(f"How many {unit_type.name} would you you like to invest for? ")
+    print(f"How many {unit_type.name} would you like to invest for? ")
     while True:
         length = input("")
         checked_user_input = check_user_length_input(unitType=unit_type, duration=length)
         if checked_user_input != None:
             return checked_user_input
         else:
-            print("Please enter a valid U.S. dollar amount for your starting investment")
-#Brings everything together and makes the calculator 
+            print("Please enter a valid U.S. dollar amount for your initial investment")
+# Brings everything together and runs the calculator 
 def main():
     principle = get_user_principle()
-    print(F"Your principle is ${principle}.")
+    print(F"Your principal investment is ${round(principle,2)}.")
     interest_rate = get_user_interest_rate()
-    print(F"Your interestRate is {interest_rate * 100 }%.")
+    print(F"Your interest rate is {round(interest_rate * 100,2) }%.")
     compound_rate = get_user_compound_rate()
-    print(F"Your compound rate is {compound_rate.compound_interest_type.name}")
+    print(F"Your compounding frequency is {compound_rate.compound_interest_type.name}")
     length_metric = get_user_length_metric()
     print(F"You have selected {length_metric.investment_length_unit_type.name}")
     invest_length = display_investment_length(unit_type=length_metric.investment_length_unit_type)
-    print(F"Your investment length is over {int(invest_length)} days")
+#    print(F"For an investment length of {int(invest_length)} days")
     total_interest = calculateInterest(
         principle=principle, rate=interest_rate, compounded_count=compound_rate.compound_interest_type.times_per_year, years=float(float(invest_length)/float(365))
     )
-    print(F"Your total interest is {total_interest}")
-#this is the begin of program
-print("Welcome to our interest calculator.\n")
-print("The goal of this calculator is to give you a idea of how much money you could possibly make with in a given length of time\n")
-#calling the program 
+    print(F"Over an investment length of {int(invest_length)} days your total earnings, including interest, are estimated to be ${total_interest}")
+# This is the beginning of the program
+#print("Welcome to our compound interest calculator.\n")
+print("This compound interest calculator will provide an estimate of the potential earnings on your investment over a specified period based on the initial principal, interest rate, and compounding frequency.\n")
+# Calling the program 
 main()
